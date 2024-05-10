@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.utils import timezone
+from django.utils.safestring import mark_safe
 
 # Register your models here.
 from CadastroPet.models import Raca, Pet, Vacinacao
@@ -37,5 +38,17 @@ class PetAdmin(admin.ModelAdmin):
         return idade
 
     idade.short_description = 'Idade'
+
+    readonly_fields = ["foto_image",]
+    def foto_image(self, obj):
+        return mark_safe('<img src="{url}" width="{width}" height={height} />'.format(
+            url = obj.headshot.url,
+            width=obj.headshot.width,
+            height=obj.headshot.height,
+            )
+    )    
+#    foto_image = models.ImageField(upload_to='fotos_pet/', blank=True, null=True, verbose_name='Foto do crachá')
+
+
 
 admin.site.register(Vacinacao)
