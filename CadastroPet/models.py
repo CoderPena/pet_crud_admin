@@ -1,16 +1,8 @@
 from django.db import models
 from django import forms
-from django.utils import timezone   
+from django.utils import timezone
 
-# Create your models here.
-# class Raca(models.Model):
-#     raca_id = models.AutoField(primary_key=True)
-#     nome = models.CharField(max_length=100)
-#     nivel_cuidado = models.CharField(max_length=20)
-#     caracteristica = models.TextField(blank=True, null=True)
-
-#     def __str__(self):
-#         return self.nome
+from django.contrib.auth import get_user_model
 
 class Raca(models.Model):
     OPCOES_NIVEL_CUIDADO = [
@@ -94,3 +86,16 @@ class Vacinacao(models.Model):
 
     def __str__(self):
         return str(self.vacinacao_id) + ' | ' + str(self.data_vacinacao)
+    
+User = get_user_model()
+class Funcionario(models.Model):
+    funcionario_id = models.AutoField(primary_key=True)
+    nome_funcionario = models.CharField(max_length=100, verbose_name='Nome do Funcionário')
+    endereço_funcionario = models.CharField(max_length=200, verbose_name='Endereço do Funcionário')
+    cargo_funcionario = models.CharField(max_length=50, verbose_name='Cargo do Funcionário')
+    email_funcionario = models.CharField(max_length=50, verbose_name='E-mail do Funcionário')
+    telefone_funcionario = models.CharField(max_length=30, verbose_name='Telefone do Funcionário')
+    usuario_funcionario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return str(self.funcionario_id) + ' | ' + str(self.nome_funcionario)    
