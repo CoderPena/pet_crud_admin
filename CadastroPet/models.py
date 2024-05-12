@@ -60,7 +60,7 @@ class Pet(models.Model):
     nome_ninhada = models.CharField(blank=True, null=True, max_length=100, default='N/A', verbose_name='Nome da ninhada', help_text="Digite o nome da ninhada a que pertente.")
     especie = models.CharField(max_length=1, choices=OPCOES_ESPECIE, verbose_name='Espécie')
     raca_id = models.ForeignKey(Raca, on_delete=models.SET_NULL, null=True, verbose_name='ID da raça')
-    porte = models.CharField(max_length=1, choices=OPCOES_PORTE, verbose_name='Porte do animal')
+    porte = models.CharField(max_length=1, choices=OPCOES_PORTE, verbose_name='Porte do animal')    
     data_nascimento = models.DateField(verbose_name='Data do nascimento')
 
     foto = models.ImageField(upload_to='fotos_pet/', blank=True, null=True, verbose_name='Foto do crachá')
