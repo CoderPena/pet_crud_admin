@@ -24,7 +24,7 @@ class RacaAdmin(admin.ModelAdmin):
     list_display = ("raca_id","nome","nivel_cuidado")
     list_display_links = ("raca_id","nome","nivel_cuidado")
 
-    list_filter = ("nivel_cuidado",)
+    list_filter = ("nivel_cuidado", "nivel_cuidado")
     search_fields = ("nome",)
 
 #admin.site.register(Pet)
@@ -66,7 +66,7 @@ class FuncionarioAdmin(admin.ModelAdmin):
     list_display_links = ("funcionario_id","nome_funcionario","cargo_funcionario","usuario_funcionario",)
 
     list_filter = ("funcionario_id", "nome_funcionario",)
-    search_fields = ("funcionario_id", "nome_funcionario", )
+    search_fields = ("funcionario_id", "nome_funcionario", "cargo_funcionario",)
 
 #admin.site.register(Voluntario)
 @admin.register(Voluntario)
