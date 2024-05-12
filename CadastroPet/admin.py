@@ -1,12 +1,13 @@
 import os
+from django.utils.safestring import mark_safe
+from urllib.parse import urlencode
+from django.contrib.staticfiles.storage import staticfiles_storage
+
 from django.contrib import admin
 from django.utils import timezone
 
-from django.utils.safestring import mark_safe
-from urllib.parse import urlencode
-
 # Register your models here.
-from CadastroPet.models import Raca, Pet, Vacinacao, Funcionario
+from CadastroPet.models import Raca, Pet, Vacinacao, Funcionario, Voluntario, Patrocinador, Adotante, LarTemporario
 
 # Importe os modelos que deseja registrar aqui
 admin.site.site_title = 'Amigos de São Francisco'
@@ -45,7 +46,8 @@ class PetAdmin(admin.ModelAdmin):
     def foto_image(self, obj):
         if obj.foto and os.path.isfile(obj.foto.path):
             # Image file exists, proceed with URL generation
-            encoded_url = urlencode({'url': obj.foto.url})
+#            encoded_url = urlencode({'url': obj.foto.url})
+            encoded_url = staticfiles_storage.url(f'{obj.foto.url}')
             return mark_safe('<img src="{url}" width="{width}" height="{height}" />'.format(
                 url=f'/{encoded_url}',  # Add "/" prefix and encoded URL
                 width=obj.foto.width,
@@ -54,7 +56,6 @@ class PetAdmin(admin.ModelAdmin):
         else:
             # Image file doesn't exist, handle appropriately
             return mark_safe('<span class="error">Foto não disponível</span>')
-
 
 admin.site.register(Vacinacao)
 
@@ -66,3 +67,25 @@ class FuncionarioAdmin(admin.ModelAdmin):
 
     list_filter = ("funcionario_id", "nome_funcionario",)
     search_fields = ("funcionario_id", "nome_funcionario", )
+
+#admin.site.register(Voluntario)
+@admin.register(Voluntario)
+class VoluntarioAdmin(admin.ModelAdmin):
+    list_display = ["voluntario_id","nome_voluntario","atribuicao_voluntario","usuario_voluntario",]
+    list_display_links = ("voluntario_id","nome_voluntario","usuario_voluntario",)
+
+    list_filter = ("voluntario_id", "nome_voluntario",)
+    search_fields = ("voluntario_id", "nome_voluntario", )
+
+#admin.site.register(Patrocinador)
+@admin.register(Patrocinador)
+class PatrocinadorAdmin(admin.ModelAdmin):
+    list_display = ["patrocinador_id","nome_patrocinador","usuario_patrocinador",]
+    list_display_links = ("patrocinador_id","nome_patrocinador","usuario_patrocinador",)
+
+    list_filter = ("patrocinador_id","nome_patrocinador",)
+    search_fields = ("patrocinador_id","nome_patrocinador",)
+
+admin.site.register(Adotante)
+
+admin.site.register(LarTemporario)
